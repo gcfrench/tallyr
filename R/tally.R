@@ -76,13 +76,19 @@ counter_subtract <- R6::R6Class("counter_add",
 
 #' tally_counter
 #'
-#' @param data
+#'  This function initiates a new tally counter with the count limit set to the number of rows in the data frame
+#'  that will be used to interate over. The counter can either increase from zero to the number of rows set or
+#'  decrease from the number of rows to zero.
 #'
-#' @return
+#' @param data a data frame to be used in subsequent iteration
+#' @param type character string indicating type of counter to use, either adding or subtracting counts
+#'
+#' @return the data frame is returned so that the function is pipe friendly
 #' @export
 #'
 #' @examples
 #' data <- data.frame(x = 1:10)
+#' tally_counter(data, type = "add")
 tally_counter <- function(data, ...) {
 
   # get function arguements
@@ -107,10 +113,16 @@ tally_counter <- function(data, ...) {
 
 #' click
 #'
-#' @return
+#' This function adds or subtracts one from the counter depending on the tally counter type used as defined with the
+#' tally_counter function. It prints the current count to the console with a minimum padding of four characters. Once
+#' counter has finished counter is removed from its environment
+#'
 #' @export
 #'
 #' @examples
+#' data <- data.frame(x = 1:10)
+#' tally_counter(data, type = "add")
+#' click()
 click <- function() {
 
   # get counter object
