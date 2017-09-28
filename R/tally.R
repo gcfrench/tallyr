@@ -20,7 +20,7 @@ counter <- R6::R6Class("counter",
       }
     },
     display = function() {
-      message(stringr::str_c(stringr::str_pad(private$..count, private$..pad, pad = "0")))
+       stringr::str_c(stringr::str_pad(private$..count, private$..pad, pad = "0"))
     },
     finalize = function() {
       message("tally counter OFF")
@@ -132,7 +132,7 @@ click <- function() {
   counter_obj$counter()
 
   # display current counter count
-  counter_obj$display()
+  count <- counter_obj$display()
 
   # remove counter object and enviromnent if counter finished
   if (counter_obj$status == "OFF") {
@@ -140,6 +140,8 @@ click <- function() {
       rm(counter_env, envir = globalenv())
       gc()
   }
+
+  return(count)
 }
 
 
