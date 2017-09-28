@@ -98,7 +98,7 @@ tally_counter <- function(data, ...) {
   # create counter object in new counter_env environment
   assign("counter_env", new.env(parent = emptyenv()), envir = globalenv())
   if (!length(arg_list)) {
-    assign("counter_obj", counter_add$new(limit = max_limit), envir = counter_env, inherits = FALSE)
+    assign("counter_obj", counter_subtract$new(limit = max_limit), envir = counter_env, inherits = FALSE)
   } else if (arg_list$type == "add") {
     assign("counter_obj", counter_add$new(limit = max_limit), envir = counter_env, inherits = FALSE)
   } else if (arg_list$type == "subtract") {
