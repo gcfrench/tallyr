@@ -23,7 +23,6 @@ counter <- R6::R6Class("counter",
        stringr::str_c(stringr::str_pad(private$..count, private$..pad, pad = "0"))
     },
     finalize = function() {
-      message("tally counter OFF")
     }
   ),
   active = list(
