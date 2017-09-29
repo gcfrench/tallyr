@@ -66,7 +66,7 @@ the the counter has been turned on.
 ```{r}
 output <- iris_five %>% 
   tally_counter() %>% 
-  purrrlyr::by_row(
+  by_row(
   function(x) {
     message(paste0("The sepal length is ", as.numeric(x[, "Sepal.Length"])), " cm")
     Sys.sleep(0.25)
@@ -80,8 +80,8 @@ console.
 ```{r}
 output <- iris_five %>% 
   tally_counter() %>% 
-  purrrlyr::by_row(
-  function(x) {
+  by_row(
+    function(x) {
     message(paste0(click(), ": The sepal length is ", as.numeric(x[, "Sepal.Length"])), " cm")
     Sys.sleep(0.25)
   })
@@ -100,7 +100,7 @@ sequentially.
 ```{r}
 output <- iris_five %>% 
   tally_counter(type = "add") %>% 
-  purrrlyr::by_row(
+  by_row(
   function(x) {
     message(paste0(click(), ": The sepal length is ", as.numeric(x[, "Sepal.Length"])), " cm")
     Sys.sleep(0.25)
