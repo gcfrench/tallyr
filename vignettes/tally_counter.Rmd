@@ -4,67 +4,105 @@ author: "Graham French"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Monitoring iteration progress with tallyr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-The main goal of **tallyr** is to provide a quick and easy method to monitor the progress of applying a function to each row within a tibble or data frame, where the time taken to complete the task is sufficient enough to run the Script in the background. The number of rows left to run through can be easily displayed in the console so that a brief look can show where the code has got to within the iteration process and how far there is left to go.
-
-The package has two functions
-
-1. **tally_counter()** which initates the counter setting the count to the total number of rows to iterate through so that the counter works downwards to zero. The **type** argument can alternatively start the counter at zero, working upwardwards to the total row count.
-1. **click()** changes the counter by one, returning the new count value so that it can be called within the function, used during the iteration process, and displayed in the console.
-
-## Setting the counter
-
-To demonstrate the use of the tally counter, we will iterate through the first 5 rows of the iris dataset, returning the sepal length for each row. tallyr is designed to be pipe friendly, working within the tidyverse suite of packages
-
 ```{r, echo = FALSE}
-iris_ten <- iris[1:10, ]
-output <- iris_ten %>% 
-  purrrlyr::by_row(
+library("magrittr")
+library("purrrlyr")
+library("tallyr")
+```
+
+## Overview
+
+The main goal of **tallyr** is to provide a quick and easy way to monitor progress whilst iterating 
+through a data frame, applying a function to each row at a time. This can be useful when the time 
+taken for this step is sufficiently long enough to run the Script in the background, coming back to 
+the console at regular intervals to see how the script is progressing. The number of rows remaining 
+to be processed is easily displayed in the console so that you can see at a glance how far the
+script has progressed and how far there is to go.
+
+## Installation
+
+The package is on github and can be installed through the devtools package
+```{r, eval = FALSE}
+# install.packages("devtools")
+install_github("gcfrench/tallyr")
+```
+
+There are two function in the package
+
+* `tally_counter()` initiates the counter setting the count to the number of rows to be iterated 
+through. The counter counts downwards to zero during the iteration step. This behaviour can be 
+changed through the type argument so that the counter counts upwards from zero to the total 
+number of iterations. 
+*  `click()` updates the counter, either decreasing or increasing the count
+by one. This up-to-date count can then be displayed in the console.
+
+## Using the counter
+
+The counter is initiated by passing the data frame into the `tally_counter()` function. This can
+be done within a pipeline containing the iteration step.
+
+As an example take the first five rows of the iris dataset and return the sepal
+length for each row by passing each row one at a time into a function.
+
+```{r}
+iris_five <- iris[1:5, ]
+output <- iris_five %>% 
+  by_row(
   function(x) {
-    message(paste0("The sepal length is ", as.numeric(x[, "Sepal.Length"])))
+    message(paste0("The sepal length is ", as.numeric(x[, "Sepal.Length"])), " cm")
     Sys.sleep(0.25)
   })
 ```
 
-To add a counter the **tally_counter()** function is immediately before the iteration step within the pipe line. On running through the pipe a message is displayed in the console showing that the tally counter has been switched on and is ready to count.
+This time the tally counter can be initiated just before running the iteration step by adding the 
+`tally_counter()` function within the pipeline. On running the pipe an initial message will show
+the the counter has been turned on.
 
-```{r, echo = FALSE}
-
-output <- iris_ten %>% 
+```{r}
+output <- iris_five %>% 
   tally_counter() %>% 
   purrrlyr::by_row(
   function(x) {
-    message(paste0("The sepal length is ", as.numeric(x[, "Sepal.Length"])))
+    message(paste0("The sepal length is ", as.numeric(x[, "Sepal.Length"])), " cm")
     Sys.sleep(0.25)
   })
 ```
 
-To display the count for each iteration step just add **click()** to the message within the function.
+Now to display the count during each iteration step just add the `click()` function to a message
+within your function. Each time the function is run the counter will be updated and displayed in the
+console.
 
-```{r, echo = FALSE}
-output <- iris_ten %>% 
+```{r}
+output <- iris_five %>% 
   tally_counter() %>% 
   purrrlyr::by_row(
   function(x) {
-    message(paste0(click(), ": The sepal length is ", as.numeric(x[, "Sepal.Length"])))
+    message(paste0(click(), ": The sepal length is ", as.numeric(x[, "Sepal.Length"])), " cm")
     Sys.sleep(0.25)
   })
 ```
 
-By default the counter starts at the total number of rows to run through in the data frame, decreasing down towards zero as each row is run through the function. This should allow a quick way of seeing how far the iteration process is left to go.
+## Changing the counter behaviour
 
-A alternate method is to start the tally counter at zero and work upwards to the total number of rows to be iterated through, therefore showing how far the iteration process has gone. To turn the tally counter into incremental counts pass the **tally_counter** function the type argument.
+By default the counter counts down from the total number of row to be iterated over, as this allows
+a quick assessment of how far there is to go with the iteration step, but this behaviour can be
+changed so that the counter counts up from zero instead.
 
-```{r, echo = FALSE}
-output <- iris_ten %>% 
+You can alter this behaviour via the `type` argument. On passing **add** to this argument the
+counter will increase sequentially whilst passing **subtract** the counter will decrease
+sequentially.
+
+```{r}
+output <- iris_five %>% 
   tally_counter(type = "add") %>% 
   purrrlyr::by_row(
   function(x) {
-    message(paste0(click(), ": The sepal length is ", as.numeric(x[, "Sepal.Length"])))
+    message(paste0(click(), ": The sepal length is ", as.numeric(x[, "Sepal.Length"])), " cm")
     Sys.sleep(0.25)
   })
 ```
