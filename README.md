@@ -1,4 +1,4 @@
-# tallyr
+# tallyr <img src="man/figures/tally_counter.png" align="right" />
 
 ## Overview
 
