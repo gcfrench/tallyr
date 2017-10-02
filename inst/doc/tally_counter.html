@@ -12,7 +12,7 @@
 
 <meta name="author" content="Graham French" />
 
-<meta name="date" content="2017-09-29" />
+<meta name="date" content="2017-10-02" />
 
 <title>Monitoring iteration progress with tallyr</title>
 
@@ -70,13 +70,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Monitoring iteration progress with tallyr</h1>
 <h4 class="author"><em>Graham French</em></h4>
-<h4 class="date"><em>2017-09-29</em></h4>
+<h4 class="date"><em>2017-10-02</em></h4>
 
 
 
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>The main goal of <strong>tallyr</strong> is to provide a quick and easy way to monitor progress whilst iterating through a data frame, applying a function to each row at a time. This can be useful when the time taken for this step is sufficiently long enough to run the Script in the background, coming back to the console at regular intervals to see how the script is progressing. The number of rows remaining to be processed is easily displayed in the console so that you can see at a glance how far the script has progressed and how far there is to go.</p>
+<p>The main goal of <strong>tallyr</strong> is to provide a quick and easy way to monitor progress whilst iterating through a data frame, applying a function to each row at a time. This can be useful when the time taken for this step is sufficiently long enough to run the script in the background, coming back to the console at regular intervals to check the progress. To help with monitoring this progress, the number of rows remaining can be displayed in the console so that you can see at a glance how far the script has progressed and how far there is left to go.</p>
 </div>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
@@ -85,14 +85,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">install_github</span>(<span class="st">&quot;gcfrench/tallyr&quot;</span>)</code></pre></div>
 <p>There are two function in the package</p>
 <ul>
-<li><code>tally_counter()</code> initiates the counter setting the count to the number of rows to be iterated through. The counter counts downwards to zero during the iteration step. This behaviour can be changed through the type argument so that the counter counts upwards from zero to the total number of iterations.</li>
+<li><code>tally_counter()</code> initiates the counter setting the count to the number of rows to be iterated through. The counter counts downwards to zero during the iteration step. This behaviour can be changed through the type argument so that instead of counting downwards the counter counts upwards from zero to the total number of iterations.</li>
 <li><code>click()</code> updates the counter, either decreasing or increasing the count by one. This up-to-date count can then be displayed in the console.</li>
 </ul>
 </div>
 <div id="using-the-counter" class="section level2">
 <h2>Using the counter</h2>
-<p>The counter is initiated by passing the data frame into the <code>tally_counter()</code> function. This can be done within a pipeline containing the iteration step.</p>
-<p>As an example take the first five rows of the iris dataset and return the sepal length for each row by passing each row one at a time into a function.</p>
+<p>The counter is initiated by passing the data frame into the <code>tally_counter()</code> function. This can be done within a pipeline containing the iteration step, for example in conjuction with the tidyverse suite of packages.</p>
+<p>To demonstrate this take the first five rows of the iris dataset passing each row, one at a time, into a function that returns the sepal length for that particular flower.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris_five &lt;-<span class="st"> </span>iris[<span class="dv">1</span>:<span class="dv">5</span>, ]
 output &lt;-<span class="st"> </span>iris_five %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">by_row</span>(
@@ -105,7 +105,8 @@ output &lt;-<span class="st"> </span>iris_five %&gt;%<span class="st"> </span>
 <pre><code>## The sepal length is 4.7 cm</code></pre>
 <pre><code>## The sepal length is 4.6 cm</code></pre>
 <pre><code>## The sepal length is 5 cm</code></pre>
-<p>This time the tally counter can be initiated just before running the iteration step by adding the <code>tally_counter()</code> function within the pipeline. On running the pipe an initial message will show the the counter has been turned on.</p>
+<p>In this example case there is a small number of rows within the data frame but if it was larger enough to run the script in the background then there is no indication of how far the script is progressing and how many more rows there is left to go.</p>
+<p>This is where using the tally counter can help. This counter can be initiated just before running the iteration step by adding the <code>tally_counter()</code> function within the pipeline. On running the pipe an initial message will show that the counter has been turned on and is ready to be used.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output &lt;-<span class="st"> </span>iris_five %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">tally_counter</span>() %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">by_row</span>(
@@ -120,7 +121,7 @@ output &lt;-<span class="st"> </span>iris_five %&gt;%<span class="st"> </span>
 <pre><code>## The sepal length is 4.7 cm</code></pre>
 <pre><code>## The sepal length is 4.6 cm</code></pre>
 <pre><code>## The sepal length is 5 cm</code></pre>
-<p>Now to display the count during each iteration step just add the <code>click()</code> function to a message within your function. Each time the function is run the counter will be updated and displayed in the console.</p>
+<p>Displaying the count during each iteration step is now easily done by adding the <code>click()</code> function to a message within your function. Each time the function is run the counter will be updated and displayed in the console.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output &lt;-<span class="st"> </span>iris_five %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">tally_counter</span>() %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">by_row</span>(
@@ -138,8 +139,8 @@ output &lt;-<span class="st"> </span>iris_five %&gt;%<span class="st"> </span>
 </div>
 <div id="changing-the-counter-behaviour" class="section level2">
 <h2>Changing the counter behaviour</h2>
-<p>By default the counter counts down from the total number of row to be iterated over, as this allows a quick assessment of how far there is to go with the iteration step, but this behaviour can be changed so that the counter counts up from zero instead.</p>
-<p>You can alter this behaviour via the <code>type</code> argument. On passing <strong>add</strong> to this argument the counter will increase sequentially whilst passing <strong>subtract</strong> the counter will decrease sequentially.</p>
+<p>By default the counter counts down from the total number of rows to be iterated over, allowing a quick assessment of how far there is to go with the iteration step, but this behaviour can be changed so that instead the counter counts up from zero.</p>
+<p>You can alter this count behaviour via the <code>type</code> argument. On passing <strong>add</strong> to this argument the counter will increase sequentially, whilst passing <strong>subtract</strong> the counter will decrease sequentially.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output &lt;-<span class="st"> </span>iris_five %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">tally_counter</span>(<span class="dt">type =</span> <span class="st">&quot;add&quot;</span>) %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">by_row</span>(
@@ -153,6 +154,7 @@ output &lt;-<span class="st"> </span>iris_five %&gt;%<span class="st"> </span>
 <pre><code>## 0003: The sepal length is 4.7 cm</code></pre>
 <pre><code>## 0004: The sepal length is 4.6 cm</code></pre>
 <pre><code>## 0005: The sepal length is 5 cm</code></pre>
+<p>The number of digits displayed by the counter is set to four to mimic the appearance of a real tally counter. However this number of digits is not fixed and will increase to accomodate increasing number of iterations, so for example above 9,999 iterations the number of digits increases to five, above 99,999 iterations six digits will be displayed and so on.</p>
 </div>
 
 

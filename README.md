@@ -4,10 +4,10 @@
 
 The main goal of **tallyr** is to provide a quick and easy way to monitor progress whilst iterating 
 through a data frame, applying a function to each row at a time. This can be useful when the time 
-taken for this step is sufficiently long enough to run the Script in the background, coming back to 
-the console at regular intervals to see how the script is progressing. The number of rows remaining 
-to be processed is easily displayed in the console so that you can see at a glance how far the
-script has progressed and how far there is to go.
+taken for this step is sufficiently long enough to run the script in the background, coming back to 
+the console at regular intervals to check the progress. To help with monitoring this progress, the
+number of rows remaining can be displayed in the console so that you can see at a
+glance how far the script has progressed and how far there is left to go.
 
 ## Installation
 
@@ -21,18 +21,19 @@ There are two function in the package
 
 * `tally_counter()` initiates the counter setting the count to the number of rows to be iterated 
 through. The counter counts downwards to zero during the iteration step. This behaviour can be 
-changed through the type argument so that the counter counts upwards from zero to the total 
-number of iterations. 
-*  `click()` updates the counter, either decreasing or increasing the count
-by one. This up-to-date count can then be displayed in the console.
+changed through the type argument so that instead of counting downwards the counter counts upwards
+from zero to the total number of iterations. 
+* `click()` updates the counter, either decreasing or
+increasing the count by one. This up-to-date count can then be displayed in the console.
 
 ## Using the counter
 
-The counter is initiated by passing the data frame into the `tally_counter()` function. This can
-be done within a pipeline containing the iteration step.
+The counter is initiated by passing the data frame into the `tally_counter()` function. This can be
+done within a pipeline containing the iteration step, for example in conjuction with the tidyverse
+suite of packages.
 
-As an example take the first five rows of the iris dataset and return the sepal
-length for each row by passing each row one at a time into a function.
+To demonstrate this take the first five rows of the iris dataset passing each row, one at a time,
+into a function that returns the sepal length for that particular flower.
 
 ```{r}
 iris_five <- iris[1:5, ]
@@ -44,9 +45,13 @@ output <- iris_five %>%
   })
 ```
 
-This time the tally counter can be initiated just before running the iteration step by adding the 
-`tally_counter()` function within the pipeline. On running the pipe an initial message will show
-the the counter has been turned on.
+In this example case there is a small number of rows within the data frame but if it was larger
+enough to run the script in the background then there is no indication of how far the script is
+progressing and how many more rows there is left to go.
+
+This is where using the tally counter can help. This counter can be initiated just before running
+the iteration step by adding the `tally_counter()` function within the pipeline. On running the pipe
+an initial message will show that the counter has been turned on and is ready to be used.
 
 ```{r}
 output <- iris_five %>% 
@@ -58,9 +63,9 @@ output <- iris_five %>%
   })
 ```
 
-Now to display the count during each iteration step just add the `click()` function to a message
-within your function. Each time the function is run the counter will be updated and displayed in the
-console.
+Displaying the count during each iteration step is now easily done by adding the `click()` function
+to a message within your function. Each time the function is run the counter will be updated and
+displayed in the console.
 
 ```{r}
 output <- iris_five %>% 
@@ -74,12 +79,12 @@ output <- iris_five %>%
 
 ## Changing the counter behaviour
 
-By default the counter counts down from the total number of row to be iterated over, as this allows
-a quick assessment of how far there is to go with the iteration step, but this behaviour can be
-changed so that the counter counts up from zero instead.
+By default the counter counts down from the total number of rows to be iterated over, allowing a
+quick assessment of how far there is to go with the iteration step, but this behaviour can be 
+changed so that instead the counter counts up from zero.
 
-You can alter this behaviour via the `type` argument. On passing **add** to this argument the
-counter will increase sequentially whilst passing **subtract** the counter will decrease
+You can alter this count behaviour via the `type` argument. On passing **add** to this argument the 
+counter will increase sequentially, whilst passing **subtract** the counter will decrease 
 sequentially.
 
 ```{r}
@@ -92,4 +97,7 @@ output <- iris_five %>%
   })
 ```
 
-
+The number of digits displayed by the counter is set to four to mimic the appearance of a real tally
+counter. However this number of digits is not fixed and will increase to accomodate increasing number
+of iterations, so for example above 9,999 iterations the number of digits increases to five, above
+99,999 iterations six digits will be displayed and so on.

@@ -2,8 +2,9 @@ Package: tallyr
 Title: A tally counter for use within the tidyverse
 Version: 0.1.0
 Author: person("Graham", "French", email = "gcfrench@googlemail.com", role = c("aut", "cre"))
+Maintainer: Graham French <gcfrench@googlemail.com>
 Description: Displays the number of iterations that have been performed, as well the number of iterations that are left to be performed. This can be used to monitor the progress of a series of iterations, for example when applying a function to each row in a data frame using the map group of functions within the purrr package. 
-    The total number of iterations is calculated by passing in the data frame, vector or list to be used in the iteration
+    The total number of iterations is calculated by passing in the data frame, vector or list to be used in the iteration.
 License: CC0
 Encoding: UTF-8
 LazyData: true
