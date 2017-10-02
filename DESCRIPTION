@@ -1,10 +1,11 @@
 Package: tallyr
-Title: A tally counter for use within the tidyverse
+Title: A tally counter to help monitor the progress of iteration steps
 Version: 0.1.0
 Author: person("Graham", "French", email = "gcfrench@googlemail.com", role = c("aut", "cre"))
 Maintainer: Graham French <gcfrench@googlemail.com>
-Description: Displays the number of iterations that have been performed, as well the number of iterations that are left to be performed. This can be used to monitor the progress of a series of iterations, for example when applying a function to each row in a data frame using the map group of functions within the purrr package. 
-    The total number of iterations is calculated by passing in the data frame, vector or list to be used in the iteration.
+Description: The main goal of tallyr is to provide a quick and easy way to monitor progress whilst iterating through a data frame, applying a function to each row at a time. 
+    This can be useful when the time taken for this step is sufficiently long enough to run the script in the background, coming back to the console at regular intervals to check the progress. 
+    To help with monitoring this progress, the number of rows remaining can be displayed in the console so that you can see at a glance how far the script has progressed and how far there is left to go.
 License: CC0
 Encoding: UTF-8
 LazyData: true
