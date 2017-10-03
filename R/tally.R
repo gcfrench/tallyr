@@ -71,22 +71,28 @@ counter_subtract <- R6::R6Class("counter_add",
     )
 )
 
-
 #' tally_counter
 #'
 #'  This function initiates a new tally counter with the count limit set to the number of rows in the data frame
-#'  that will be used to interate over. The counter can either increase from zero to the number of rows set or
-#'  decrease from the number of rows to zero.
+#'  used to interate over. The counter can either increase from zero to the number of rows set or
+#'  decrease from the number of rows to zero based on the type argument.
 #'
-#' @param data a data frame to be used in subsequent iteration
-#' @param type character string indicating type of counter to use, either adding or subtracting counts
+#' @param data a data frame to be used in the iteration
+#' @param ... character string argument named type indicating type of counter to use, either adding or subtracting counts
 #'
 #' @return the data frame is returned so that the function is pipe friendly
 #' @export
 #'
 #' @examples
-#' data <- data.frame(x = 1:10)
-#' tally_counter(data, type = "add")
+#'
+#' # Use default decreasing count setting
+#' iris_three<- iris[1:3, ]
+#' tally_counter(iris_three)
+#'
+#' # Set increasing count setting
+#' iris_three <- iris[1:3, ]
+#' tally_counter(iris_three, type = "add")
+#'
 tally_counter <- function(data, ...) {
 
   # get function arguements
@@ -105,22 +111,29 @@ tally_counter <- function(data, ...) {
     stop("Incorrect tally counter type, type must be either add or subtract")
   }
 
-  # return data frame to allow use in piping
+  # return data frame allowing use in piping
   invisible(data)
 }
 
 #' click
 #'
-#' This function adds or subtracts one from the counter depending on the tally counter type used as defined with the
-#' tally_counter function. It prints the current count to the console with a minimum padding of four characters. Once
-#' counter has finished counter is removed from its environment
+#' This function adds or subtracts one from the counter depending on the tally counter type used, defined within the
+#' tally_counter function. It returns the number padded to a minimum of four characters. Once counter has finished
+#' the environment and counter object are removed.
 #'
 #' @export
 #'
 #' @examples
-#' data <- data.frame(x = 1:10)
-#' tally_counter(data, type = "add")
-#' click()
+#' # Use default decreasing count setting
+#' iris_three <- iris[1:5, ]
+#' tally_counter(iris_three)
+#' sepal_length <- function(x) {
+#'   message(paste0(click(), ": The sepal length is ", as.numeric(x[, "Sepal.Length"])), " cm")
+#'   Sys.sleep(0.25)
+#' }
+#' sepal_length(iris_three[1, ])
+#' sepal_length(iris_three[2, ])
+#' sepal_length(iris_three[3, ])
 click <- function() {
 
   # get counter object

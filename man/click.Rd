@@ -7,12 +7,19 @@
 click()
 }
 \description{
-This function adds or subtracts one from the counter depending on the tally counter type used as defined with the
-tally_counter function. It prints the current count to the console with a minimum padding of four characters. Once
-counter has finished counter is removed from its environment
+This function adds or subtracts one from the counter depending on the tally counter type used, defined within the
+tally_counter function. It returns the number padded to a minimum of four characters. Once counter has finished
+the environment and counter object are removed.
 }
 \examples{
-data <- data.frame(x = 1:10)
-tally_counter(data, type = "add")
-click()
+# Use default decreasing count setting
+iris_three <- iris[1:5, ]
+tally_counter(iris_three)
+sepal_length <- function(x) {
+  message(paste0(click(), ": The sepal length is ", as.numeric(x[, "Sepal.Length"])), " cm")
+  Sys.sleep(0.25)
+}
+sepal_length(iris_three[1, ])
+sepal_length(iris_three[2, ])
+sepal_length(iris_three[3, ])
 }

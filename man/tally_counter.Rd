@@ -7,19 +7,26 @@
 tally_counter(data, ...)
 }
 \arguments{
-\item{data}{a data frame to be used in subsequent iteration}
+\item{data}{a data frame to be used in the iteration}
 
-\item{type}{character string indicating type of counter to use, either adding or subtracting counts}
+\item{...}{character string argument named type indicating type of counter to use, either adding or subtracting counts}
 }
 \value{
 the data frame is returned so that the function is pipe friendly
 }
 \description{
 This function initiates a new tally counter with the count limit set to the number of rows in the data frame
- that will be used to interate over. The counter can either increase from zero to the number of rows set or
- decrease from the number of rows to zero.
+ used to interate over. The counter can either increase from zero to the number of rows set or
+ decrease from the number of rows to zero based on the type argument.
 }
 \examples{
-data <- data.frame(x = 1:10)
-tally_counter(data, type = "add")
+
+# Use default decreasing count setting
+iris_three<- iris[1:3, ]
+tally_counter(iris_three)
+
+# Set increasing count setting
+iris_three <- iris[1:3, ]
+tally_counter(iris_three, type = "add")
+
 }
