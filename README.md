@@ -101,3 +101,10 @@ The number of digits displayed by the counter is set to four to mimic the appear
 counter. However this number of digits is not fixed and will increase to accomodate increasing number
 of iterations, so for example above 9,999 iterations the number of digits increases to five, above
 99,999 iterations six digits will be displayed and so on.
+
+## More info
+
+For more information, read the `tallyr` vignette
+```{r}
+browseVignettes(package = "tallyr")
+```
