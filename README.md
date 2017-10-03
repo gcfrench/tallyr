@@ -102,7 +102,7 @@ counter. However this number of digits is not fixed and will increase to accomod
 of iterations, so for example above 9,999 iterations the number of digits increases to five, above
 99,999 iterations six digits will be displayed and so on.
 
-## More info
+## More information
 
 For more information, read the `tallyr` vignette
 ```{r}
