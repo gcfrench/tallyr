@@ -97,7 +97,11 @@ tally_counter <- function(data, ...) {
 
   # get function arguements
   arg_list <- list(...)
-  max_limit <- nrow(data)
+  if (class(data) == "data.frame") {
+    max_limit <- nrow(data)
+  } else {
+    max_limit <- length(data)
+  }
 
   # create counter object in new counter_env environment
   assign("counter_env", new.env(parent = emptyenv()), envir = globalenv())
@@ -154,5 +158,3 @@ click <- function() {
 
   return(count)
 }
-
-
