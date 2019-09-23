@@ -46,7 +46,7 @@ counter_add <- R6::R6Class("counter_add",
       }
       private$..count <- private$..start
       private$..increment <- "add"
-      message("tally counter ON")
+      message(paste0(self$display(), " tally counter"))
     }
   )
 )
@@ -65,8 +65,7 @@ counter_subtract <- R6::R6Class("counter_add",
        }
        private$..count <- private$..start
        private$..increment <- "subtract"
-       message("tally counter ON")
-       message(self$display())
+       message(paste0(self$display(), " tally counter"))
        }
     )
 )
