@@ -97,7 +97,7 @@ tally_counter <- function(data, ...) {
 
   # get function arguements
   arg_list <- list(...)
-  if (class(data) == "data.frame") {
+  if (any(class(data)) == "data.frame") {
     max_limit <- nrow(data)
   } else {
     max_limit <- length(data)
