@@ -11,9 +11,9 @@ glance how far the script has progressed and how far there is left to go.
 
 ## Installation
 
-The package is on github and can be installed through the devtools package
+The package is on github and can be installed through the remotes package
 ```{r, eval = FALSE}
-# install.packages("devtools")
+# install.packages("remotes")
 install_github("gcfrench/tallyr")
 ```
 
@@ -23,8 +23,8 @@ There are two function in the package
 through. The counter counts downwards to zero during the iteration step. This behaviour can be 
 changed through the type argument so that instead of counting downwards the counter counts upwards
 from zero to the total number of iterations. 
-* `click()` updates the counter, either decreasing or
-increasing the count by one. This up-to-date count can then be displayed in the console.
+* `click()` updates the counter, either decreasing or increasing the count by one. This up-to-date 
+count can then be displayed in the console.
 
 ## Using the counter
 
@@ -32,17 +32,16 @@ The counter is initiated by passing the data frame into the `tally_counter()` fu
 done within a pipeline containing the iteration step, for example in conjuction with the tidyverse
 suite of packages.
 
-To demonstrate this take the first five rows of the iris dataset passing each row, one at a time,
+To demonstrate this take the first ten rows of the iris dataset passing each row, one at a time,
 into a function that returns the sepal length for that particular flower.
 
 ```{r}
-iris_five <- iris[1:5, ]
-output <- iris_five %>% 
-  by_row(
-  function(x) {
-    message(paste0("The sepal length is ", as.numeric(x[, "Sepal.Length"])), " cm")
-    Sys.sleep(0.25)
-  })
+output <- iris[1:10, ] %>%
+  pmap(
+    function(...) {
+      message(paste0("The sepal length is ", pluck(list(...), "Sepal.Length")), " cm")
+      Sys.sleep(0.25)
+    })
 ```
 
 In this example case there is a small number of rows within the data frame but if it was larger
@@ -51,16 +50,16 @@ progressing and how many more rows there is left to go.
 
 This is where using the tally counter can help. This counter can be initiated just before running
 the iteration step by adding the `tally_counter()` function within the pipeline. On running the pipe
-an initial message will show that the counter has been turned on and is ready to be used.
+an initial message will show the counter set to the number of rows to be iterated over.
 
 ```{r}
-output <- iris_five %>% 
-  tally_counter() %>% 
-  by_row(
-  function(x) {
-    message(paste0("The sepal length is ", as.numeric(x[, "Sepal.Length"])), " cm")
-    Sys.sleep(0.25)
-  })
+output <- iris[1:10, ] %>%
+  tally_counter() %>%
+  pmap(
+    function(...) {
+      message(paste0("The sepal length is ", pluck(list(...), "Sepal.Length")), " cm")
+      Sys.sleep(0.25)
+    })
 ```
 
 Displaying the count during each iteration step is now easily done by adding the `click()` function
@@ -68,13 +67,13 @@ to a message within your function. Each time the function is run the counter wil
 displayed in the console.
 
 ```{r}
-output <- iris_five %>% 
-  tally_counter() %>% 
-  by_row(
-    function(x) {
-    message(paste0(click(), ": The sepal length is ", as.numeric(x[, "Sepal.Length"])), " cm")
-    Sys.sleep(0.25)
-  })
+output <- iris[1:10, ] %>%
+  tally_counter() %>%
+  pmap(
+    function(...) {
+      message(paste0(click(), ": The sepal length is ", pluck(list(...), "Sepal.Length")), " cm")
+      Sys.sleep(0.25)
+    })
 ```
 
 ## Changing the counter behaviour
@@ -88,13 +87,13 @@ counter will increase sequentially, whilst passing **subtract** the counter will
 sequentially.
 
 ```{r}
-output <- iris_five %>% 
-  tally_counter(type = "add") %>% 
-  by_row(
-  function(x) {
-    message(paste0(click(), ": The sepal length is ", as.numeric(x[, "Sepal.Length"])), " cm")
-    Sys.sleep(0.25)
-  })
+output <- iris[1:10, ] %>%
+  tally_counter(type = "add") %>%
+  pmap(
+    function(...) {
+      message(paste0(click(), ": The sepal length is ", pluck(list(...), "Sepal.Length")), " cm")
+      Sys.sleep(0.25)
+    })
 ```
 
 The number of digits displayed by the counter is set to four to mimic the appearance of a real tally
