@@ -14,7 +14,7 @@ glance how far the script has progressed and how far there is left to go.
 The package is on github and can be installed through the remotes package
 ```{r, eval = FALSE}
 # install.packages("remotes")
-install_github("gcfrench/tallyr")
+remotes::install_github("gcfrench/tallyr")
 ```
 
 There are two function in the package
