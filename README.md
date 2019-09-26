@@ -33,9 +33,12 @@ done within a pipeline containing the iteration step, for example in conjuction 
 suite of packages.
 
 To demonstrate this take the first ten rows of the iris dataset passing each row, one at a time,
-into a function that returns the sepal length for that particular flower.
+into a function that returns the sepal length for that particular flower. The map and pluck functions
+from the purrr package are used to pass and extract the sepal length from each row. 
 
 ```{r}
+library(tallyr)
+library(purrr)
 output <- iris[1:10, ] %>%
   pmap(
     function(...) {
