@@ -32,14 +32,14 @@ The counter is initiated by passing the data frame into the `tally_counter()` fu
 done within a pipeline containing the iteration step, for example in conjuction with the tidyverse
 suite of packages.
 
-To demonstrate this take the first ten rows of the iris dataset passing each row, one at a time,
+To demonstrate this take the first five rows of the iris dataset passing each row, one at a time,
 into a function that returns the sepal length for that particular flower. The map and pluck functions
 from the purrr package are used to pass and extract the sepal length from each row. 
 
 ```{r}
 library(tallyr)
 library(purrr)
-output <- iris[1:10, ] %>%
+output <- iris[1:5, ] %>%
   pmap(
     function(...) {
       message(paste0("The sepal length is ", pluck(list(...), "Sepal.Length")), " cm")
@@ -56,7 +56,7 @@ the iteration step by adding the `tally_counter()` function within the pipeline.
 an initial message will show the counter set to the number of rows to be iterated over.
 
 ```{r}
-output <- iris[1:10, ] %>%
+output <- iris[1:5, ] %>%
   tally_counter() %>%
   pmap(
     function(...) {
@@ -70,7 +70,7 @@ to a message within your function. Each time the function is run the counter wil
 displayed in the console.
 
 ```{r}
-output <- iris[1:10, ] %>%
+output <- iris[1:5, ] %>%
   tally_counter() %>%
   pmap(
     function(...) {
@@ -90,7 +90,7 @@ counter will increase sequentially, whilst passing **subtract** the counter will
 sequentially.
 
 ```{r}
-output <- iris[1:10, ] %>%
+output <- iris[1:5, ] %>%
   tally_counter(type = "add") %>%
   pmap(
     function(...) {
