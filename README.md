@@ -1,4 +1,4 @@
-# tallyr <img src="man/figures/hex_sticker.png" align="right" width="160" height="160" />
+# tallyr <img src="man/figures/hex_sticker.png" align="right" width="200" height="200" />
 
 ## Overview
 
