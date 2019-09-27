@@ -1,4 +1,4 @@
-# tallyr <img src="man/figures/tally_counter.png" align="right" />
+# tallyr <img src="man/figures/hex_sticker.png" align="right" />
 
 ## Overview
 
@@ -100,7 +100,7 @@ output <- iris[1:5, ] %>%
 ```
 
 The number of digits displayed by the counter is set to four to mimic the appearance of a real tally
-counter. However this number of digits is not fixed and will increase to accomodate increasing number
+counter. However this number of digits is not fixed and will increase to accommodate increasing number
 of iterations, so for example above 9,999 iterations the number of digits increases to five, above
 99,999 iterations six digits will be displayed and so on.
 
