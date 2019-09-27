@@ -1,5 +1,9 @@
 # tallyr <img src="man/figures/hex_sticker.png" align="right" width="180" height="200" />
 
+<!-- badges: start -->
+  [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+  <!-- badges: end -->
+
 ## Overview
 
 The main goal of **tallyr** is to provide a quick and easy way to monitor progress whilst iterating 
